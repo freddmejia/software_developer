@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -22,13 +18,33 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('categories', function(Blueprint $table)
+        {
+            $table->id();
+            $table->string("name");
+            $table->string('key');
+            $table->timestamps();
+        });
+
+        Schema::create('data', function(Blueprint $table){
+            $table->id();
+            $table->unsignedBigInteger('category_id');
+            $table->string('author');
+            $table->string('title');
+            $table->string('description');
+            $table->string('url');
+            $table->string('source');
+            $table->string('image');
+            $table->string('category');
+            $table->string('language');
+            $table->string('country');
+            $table->string('published_at');
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('users');
